@@ -1,6 +1,5 @@
 import { FunctionComponent, ComponentClass } from 'react';
-import { Home } from '../screens';
-import Settings from '../screens/Settings';
+import { Home, Settings, Subreddit, NotFound } from '../screens';
 
 type RouteType = {
   key: string;
@@ -21,5 +20,15 @@ export const routes: RouteType[] = [
     key: 'settings',
     link: '/settings',
     component: Settings,
+  },
+  {
+    key: 'subreddit',
+    link: '/r/:name/:sort',
+    component: Subreddit,
+  },
+  {
+    key: '404',
+    link: '*',
+    component: NotFound,
   },
 ];

@@ -15,4 +15,14 @@ const Settings = Loadable({
   loading: Loader,
 });
 
-export { Home, Settings };
+const Subreddit = Loadable({
+  loader: () => import('./Subreddit'),
+  loading: Loader,
+});
+
+const NotFound = Loadable({
+  loader: () => import('./NotFound'),
+  loading: Loader,
+});
+
+export { Home, Settings, Subreddit, NotFound };
