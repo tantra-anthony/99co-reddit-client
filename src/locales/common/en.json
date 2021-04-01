@@ -1,4 +1,8 @@
 {
   "home": "Home",
-  "settings": "Settings"
+  "settings": "Settings",
+  "not_found": {
+    "oops": "Oops!",
+    "title": "We can't find what you're looking for"
+  }
 }
