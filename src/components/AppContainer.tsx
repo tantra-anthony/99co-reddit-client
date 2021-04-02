@@ -6,7 +6,7 @@ const styles = makeStyles((theme: Theme) => ({
     display: 'flex',
     flexDirection: 'column',
     backgroundColor: theme.palette.background.default,
-    minHeight: '100vh',
+    height: '100%',
   },
 }));
 
