@@ -40,3 +40,22 @@ export const lightTheme = () =>
       fontFamily: "'Open Sans', 'Helvetica', 'Arial', sans-serif",
     },
   });
+
+export const darkTheme = () =>
+  createAppTheme({
+    palette: {
+      type: 'dark',
+      primary: {
+        main: '#FF5700',
+      },
+      secondary: {
+        main: '#0079d3',
+      },
+    },
+    custom: {
+      default: '#eeeeee',
+    },
+    typography: {
+      fontFamily: "'Open Sans', 'Helvetica', 'Arial', sans-serif",
+    },
+  });
