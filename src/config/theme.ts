@@ -27,10 +27,10 @@ export const lightTheme = () =>
         main: '#FF5700',
       },
       secondary: {
-        main: '#D32F2F',
+        main: '#0079d3',
       },
       background: {
-        default: '#eeeeee',
+        default: '#f5f5f5',
       },
     },
     custom: {
