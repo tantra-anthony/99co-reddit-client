@@ -3,7 +3,7 @@ import {
   SubredditContentQueryParams,
   SubredditContentResult,
   SubredditContentSortTypes,
-  SubredditInfoResult,
+  SubredditSearchInfoResult,
 } from './types';
 import { REDDIT_BASE_URL } from '../constants';
 import querystring from 'querystring';
@@ -19,8 +19,19 @@ function getSubredditContentFetchURL(
   ).toString();
 }
 
-function getSubredditInfoFetchURL(subreddit: string): string {
-  return new URL(`r/${subreddit}/about.json`, REDDIT_BASE_URL).toString();
+function getSubredditSearchInfoFetchURL(
+  subreddit: string,
+  limit: number,
+): string {
+  const qstring = querystring.stringify({
+    limit,
+    q: subreddit,
+  });
+
+  return new URL(
+    `subreddits/search.json?${qstring}`,
+    REDDIT_BASE_URL,
+  ).toString();
 }
 
 export function fetchSubredditContent(
@@ -33,9 +44,16 @@ export function fetchSubredditContent(
   return axios.get<SubredditContentResult>(url).then((res) => res.data);
 }
 
-export function fetchSubredditInfo(
+export function searchSubreddit(
+  keyword: string,
+  limit: number,
+): Promise<SubredditSearchInfoResult> {
+  const url = getSubredditSearchInfoFetchURL(keyword, limit);
+  return axios.get<SubredditSearchInfoResult>(url).then((res) => res.data);
+}
+
+export function fetchSubredditSearchInfo(
   subreddit: string,
-): Promise<SubredditInfoResult> {
-  const url = getSubredditInfoFetchURL(subreddit);
-  return axios.get<SubredditInfoResult>(url).then((res) => res.data);
+): Promise<SubredditSearchInfoResult> {
+  return searchSubreddit(subreddit, 1);
 }

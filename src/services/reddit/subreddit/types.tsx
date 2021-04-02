@@ -39,12 +39,17 @@ interface SubredditContentDataChildData {
   id: string;
 }
 
-export interface SubredditInfoResult {
+export interface SubredditSearchInfoResult {
   kind: string;
-  data: SubredditInfoData;
+  data: SubredditSearchInfoData;
 }
 
-interface SubredditInfoData {
+interface SubredditSearchInfoData {
+  dist: number;
+  children: SubredditSearchInfoDataChild[];
+}
+
+export interface SubredditSearchInfoDataChild {
   title: string;
   icon_img: string;
   display_name_prefixed: string;
