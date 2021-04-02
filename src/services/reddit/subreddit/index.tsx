@@ -3,6 +3,7 @@ import {
   SubredditContentQueryParams,
   SubredditContentResult,
   SubredditContentSortTypes,
+  SubredditInfoResult,
 } from './types';
 import { REDDIT_BASE_URL } from '../constants';
 import querystring from 'querystring';
@@ -18,6 +19,10 @@ function getSubredditContentFetchURL(
   ).toString();
 }
 
+function getSubredditInfoFetchURL(subreddit: string): string {
+  return new URL(`r/${subreddit}/about.json`, REDDIT_BASE_URL).toString();
+}
+
 export function fetchSubredditContent(
   subreddit: string,
   sort: SubredditContentSortTypes,
@@ -26,4 +31,11 @@ export function fetchSubredditContent(
   const qstring = querystring.stringify(query);
   const url = getSubredditContentFetchURL(subreddit, sort, qstring);
   return axios.get<SubredditContentResult>(url).then((res) => res.data);
+}
+
+export function fetchSubredditInfo(
+  subreddit: string,
+): Promise<SubredditInfoResult> {
+  const url = getSubredditInfoFetchURL(subreddit);
+  return axios.get<SubredditInfoResult>(url).then((res) => res.data);
 }

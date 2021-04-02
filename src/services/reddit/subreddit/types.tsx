@@ -38,3 +38,19 @@ interface SubredditContentDataChildData {
   url: string;
   id: string;
 }
+
+export interface SubredditInfoResult {
+  kind: string;
+  data: SubredditInfoData;
+}
+
+interface SubredditInfoData {
+  title: string;
+  icon_img: string;
+  display_name_prefixed: string;
+  subscribers: number;
+  accounts_active: number;
+  name: string;
+  public_description: string;
+  mobile_banner_image: string;
+}
