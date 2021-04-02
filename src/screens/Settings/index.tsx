@@ -11,7 +11,8 @@ import { RootState } from '../../store';
 import { connect, ConnectedProps, useDispatch } from 'react-redux';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { ThemePreference } from '../../store/ui/types';
-import { changeThemePreference } from '../../store/ui/actions';
+import { changeThemePreference } from '../../store/ui';
+import useAppDispatch from '../../utils/hooks/useAppDispatch';
 
 const mapStateToProps = (state: RootState) => {
   const { theme } = state.ui;
@@ -45,7 +46,7 @@ function Settings(props: SettingsProps) {
   const classes = styles();
   const { t } = useLanguage();
   const history = useHistory();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   function onGoBack() {
     history.goBack();

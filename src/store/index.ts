@@ -1,30 +1,16 @@
-import { combineReducers, Action, createStore, applyMiddleware } from 'redux';
-import thunk, { ThunkAction } from 'redux-thunk';
-import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
+import { configureStore } from '@reduxjs/toolkit';
 
-import users from './users/reducers';
-import ui from './ui/reducers';
+import ui from './ui';
 
-const rootReducer = combineReducers({
-  users,
-  ui,
+export type RootState = ReturnType<typeof store.getState>;
+
+export type AppDispatch = typeof store.dispatch;
+
+const store = configureStore({
+  reducer: {
+    ui,
+  },
+  devTools: process.env.NODE_ENV === 'development',
 });
-
-export type RootState = ReturnType<typeof rootReducer>;
-
-export type AppThunk<ReturnType = void> = ThunkAction<
-  ReturnType,
-  RootState,
-  unknown,
-  Action<string>
->;
-
-const middlewares = [thunk];
-const middlewareEnhancer = applyMiddleware(...middlewares);
-
-const enhancers = [middlewareEnhancer];
-const composedEnhancers = composeWithDevTools(...enhancers);
-
-const store = createStore(rootReducer, composedEnhancers);
 
 export default store;

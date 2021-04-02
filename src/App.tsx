@@ -8,7 +8,7 @@ import { loadTranslations } from './services/translation';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { RootState } from './store';
 import { connect, ConnectedProps, useDispatch } from 'react-redux';
-import { rehydrateThemePreference } from './store/ui/actions';
+import { rehydrateThemePreference } from './store/ui';
 import { setThemePreference } from './services/ui';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { ThemePreference } from './store/ui/types';
