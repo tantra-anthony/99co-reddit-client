@@ -5,12 +5,15 @@ import { routes } from './config/routes';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import AppContainer from './components/AppContainer';
 import { loadTranslations } from './services/translation';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 loadTranslations();
 
-const styles = makeStyles(() => ({
+const styles = makeStyles((theme) => ({
   app: {
     whiteSpace: 'pre-line',
+    backgroundColor: theme.palette.background.default,
+    height: '100%',
   },
 }));
 
@@ -20,6 +23,7 @@ function App() {
   return (
     <div className={classes.app}>
       <ThemeProvider theme={lightTheme()}>
+        <CssBaseline />
         <AppContainer>
           <HashRouter>
             <Switch>
