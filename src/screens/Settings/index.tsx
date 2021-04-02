@@ -82,7 +82,7 @@ function Settings(props: SettingsProps) {
           <Typography>{t('settings.night_mode')}</Typography>
           <Switch
             size="small"
-            color="secondary"
+            color="primary"
             checked={isNightMode}
             onChange={handleNightModeChange}
           />

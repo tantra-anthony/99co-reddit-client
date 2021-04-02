@@ -49,7 +49,7 @@ export const darkTheme = () =>
         main: '#FF5700',
       },
       secondary: {
-        main: '#0079d3',
+        main: '#d7dadc',
       },
     },
     custom: {
