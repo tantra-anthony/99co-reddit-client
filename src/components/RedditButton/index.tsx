@@ -15,16 +15,23 @@ interface RedditButtonProps {
   variant?: 'outlined' | 'contained';
   color?: 'primary' | 'secondary';
   children?: React.ReactNode;
+  onClick?: () => void;
 }
 
 function RedditButton(props: RedditButtonProps) {
   const classes = styles();
-  const { variant = 'contained', children = null, color = 'primary' } = props;
+  const {
+    variant = 'contained',
+    children = null,
+    color = 'primary',
+    onClick = () => {},
+  } = props;
 
   return (
     <Button
       size="small"
       color={color}
+      onClick={onClick}
       classes={{ root: classes.button }}
       disableElevation
       variant={variant}
