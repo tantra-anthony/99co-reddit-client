@@ -24,7 +24,7 @@ export const lightTheme = () =>
     palette: {
       type: 'light',
       primary: {
-        main: '#1565C0',
+        main: '#FF5700',
       },
       secondary: {
         main: '#D32F2F',
