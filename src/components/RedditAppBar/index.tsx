@@ -29,8 +29,12 @@ const styles = makeStyles((theme) => ({
     cursor: 'pointer',
   },
   search: {
+    flex: 1,
+    maxWidth: 690,
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
+    borderColor: 'black',
+    borderWidth: 100,
     backgroundColor:
       theme.palette.type === 'light'
         ? fade(theme.palette.grey[300], 0.4)
@@ -53,7 +57,7 @@ const styles = makeStyles((theme) => ({
     width: '100%',
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(3),
-      width: 'auto',
+      width: '100%',
     },
   },
   searchIcon: {
@@ -65,16 +69,16 @@ const styles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  inputRoot: {
+    width: '100%',
+  },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
+    flex: 1,
     // vertical padding + font size from searchIcon
     fontSize: 14,
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create('width'),
     width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
-    },
   },
 }));
 
@@ -132,6 +136,7 @@ function RedditAppBar() {
               <InputBase
                 placeholder={t('search')}
                 classes={{
+                  root: classes.inputRoot,
                   input: classes.inputInput,
                 }}
                 inputProps={{ 'aria-label': 'search' }}
