@@ -3,9 +3,11 @@ import thunk, { ThunkAction } from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 
 import users from './users/reducers';
+import ui from './ui/reducers';
 
 const rootReducer = combineReducers({
   users,
+  ui,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
