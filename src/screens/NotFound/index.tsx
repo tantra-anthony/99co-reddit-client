@@ -5,8 +5,12 @@ import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import clsx from 'clsx';
+import { Helmet } from 'react-helmet';
 import { ReactComponent as NotFoundLogo } from '../../assets/icons/notfound.svg';
 import useLanguage from '../../utils/hooks/useLanguage';
+import RedditButton from '../../components/RedditButton';
+import { useHistory } from 'react-router';
+import Box from '@material-ui/core/Box';
 
 const styles = makeStyles((theme) => ({
   pageContainer: {
@@ -46,10 +50,14 @@ function NotFound() {
   const classes = styles();
   const { t } = useLanguage();
   const theme = useTheme();
+  const history = useHistory();
+
+  function onGoBack() {
+    history.goBack();
+  }
 
   return (
     <Container maxWidth="md" classes={{ root: classes.pageContainer }}>
-      <CssBaseline />
       <Grid
         direction="row"
         container
@@ -77,6 +85,11 @@ function NotFound() {
               <Typography className={classes.text} variant="body2">
                 {t('not_found.title')}
               </Typography>
+              <Box marginTop={2}>
+                <RedditButton onClick={onGoBack}>
+                  {t('not_found.go_back')}
+                </RedditButton>
+              </Box>
             </Grid>
           </Grid>
         </Grid>
