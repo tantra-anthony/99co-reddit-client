@@ -1,13 +1,28 @@
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
-import { lightTheme } from './config/theme';
+import { lightTheme, darkTheme } from './config/theme';
 import { routes } from './config/routes';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import AppContainer from './components/AppContainer';
 import { loadTranslations } from './services/translation';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import { RootState } from './store';
+import { connect, ConnectedProps, useDispatch } from 'react-redux';
+import { rehydrateThemePreference } from './store/ui/actions';
+import { setThemePreference } from './services/ui';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { ThemePreference } from './store/ui/types';
 
 loadTranslations();
+
+const mapStateToProps = (state: RootState) => {
+  const { theme } = state.ui;
+  return { theme };
+};
+
+const connector = connect(mapStateToProps);
+type ReduxProps = ConnectedProps<typeof connector>;
+type AppProps = ReduxProps;
 
 const styles = makeStyles((theme) => ({
   app: {
@@ -17,12 +32,33 @@ const styles = makeStyles((theme) => ({
   },
 }));
 
-function App() {
+function App(props: AppProps) {
+  const { theme } = props;
   const classes = styles();
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const dispatch = useDispatch();
+
+  const preferenceWithoutSaved: ThemePreference = prefersDarkMode
+    ? 'dark'
+    : 'light';
+
+  const preferredTheme = useMemo(() => {
+    return theme === 'dark' ? darkTheme() : lightTheme();
+  }, [theme]);
+
+  useEffect(() => {
+    dispatch(rehydrateThemePreference(preferenceWithoutSaved));
+  }, [dispatch, preferenceWithoutSaved]);
+
+  useEffect(() => {
+    if (theme) {
+      setThemePreference(theme);
+    }
+  }, [theme]);
 
   return (
     <div className={classes.app}>
-      <ThemeProvider theme={lightTheme()}>
+      <ThemeProvider theme={preferredTheme}>
         <CssBaseline />
         <AppContainer>
           <HashRouter>
@@ -43,4 +79,4 @@ function App() {
   );
 }
 
-export default App;
+export default connector(App);

@@ -15,24 +15,37 @@ import MenuItem from '@material-ui/core/MenuItem';
 import PersonIcon from '@material-ui/icons/Person';
 import useLanguage from '../../utils/hooks/useLanguage';
 import useTheming from '../../utils/hooks/useTheming';
+import { useHistory } from 'react-router';
 
 const ITEM_HEIGHT = 48;
 
-const options = ['night_mode'];
+const options = ['settings.title'];
 
 const styles = makeStyles((theme) => ({
   toolbar: {
     backgroundColor: theme.palette.background.default,
   },
+  logo: {
+    cursor: 'pointer',
+  },
   search: {
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.grey[300], 0.4),
+    backgroundColor:
+      theme.palette.type === 'light'
+        ? fade(theme.palette.grey[300], 0.4)
+        : theme.palette.grey[800],
     '&:hover': {
-      backgroundColor: theme.palette.background.default,
+      backgroundColor:
+        theme.palette.type === 'light'
+          ? theme.palette.background.default
+          : fade(theme.palette.grey[800], 0.8),
     },
     '&:focus': {
-      backgroundColor: fade(theme.palette.grey[400], 0.25),
+      backgroundColor:
+        theme.palette.type === 'light'
+          ? fade(theme.palette.grey[400], 0.25)
+          : theme.palette.grey[700],
       borderColor: theme.palette.primary.main,
     },
     marginRight: theme.spacing(2),
@@ -70,6 +83,7 @@ function RedditAppBar() {
   const classes = styles();
   const { palette } = useTheming();
   const { t } = useLanguage();
+  const history = useHistory();
 
   function handleMenuClick(event: React.MouseEvent<HTMLElement>) {
     setAnchorEl(event.currentTarget);
@@ -79,6 +93,14 @@ function RedditAppBar() {
     setAnchorEl(null);
   }
 
+  function onMenuPressed() {
+    history.push('/settings');
+  }
+
+  function onLogoPressed() {
+    history.push('/');
+  }
+
   return (
     <AppBar position="sticky">
       <Toolbar variant="dense" classes={{ root: classes.toolbar }}>
@@ -86,6 +108,7 @@ function RedditAppBar() {
           width="100%"
           display="flex"
           flexDirection="row"
+          alignItems="center"
           justifyContent="space-between"
         >
           <Box
@@ -93,6 +116,8 @@ function RedditAppBar() {
             flexDirection="row"
             alignItems="center"
             justifyContent="center"
+            onClick={onLogoPressed}
+            className={classes.logo}
           >
             <Box marginRight={1}>
               <Logo fill={palette.primary.main} width={30} height={30} />
@@ -147,7 +172,7 @@ function RedditAppBar() {
                   }}
                 >
                   {options.map((option) => (
-                    <MenuItem key={option} onClick={handleClose}>
+                    <MenuItem key={option} onClick={onMenuPressed}>
                       {t(option)}
                     </MenuItem>
                   ))}
