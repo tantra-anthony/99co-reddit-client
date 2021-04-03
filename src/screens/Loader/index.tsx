@@ -45,4 +45,16 @@ function Loader(props: LoaderProps) {
   );
 }
 
+export function LoaderWithoutProps() {
+  return (
+    <Loader
+      isLoading
+      retry={() => {}}
+      timedOut={false}
+      pastDelay={false}
+      error={undefined}
+    />
+  );
+}
+
 export default Loader;
