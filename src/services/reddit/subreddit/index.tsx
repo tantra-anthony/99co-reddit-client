@@ -1,8 +1,10 @@
 import axios from 'axios';
 import {
+  SubredditAboutResult,
   SubredditContentQueryParams,
   SubredditContentResult,
   SubredditContentSortTypes,
+  SubredditSearchInfoDataChildData,
   SubredditSearchInfoResult,
 } from './types';
 import { REDDIT_BASE_URL } from '../constants';
@@ -34,6 +36,10 @@ function getSubredditSearchInfoFetchURL(
   ).toString();
 }
 
+function getSubredditAboutFetchURL(subreddit: string): string {
+  return new URL(`r/${subreddit}/about.json`, REDDIT_BASE_URL).toString();
+}
+
 export function fetchSubredditContent(
   subreddit: string,
   sort: SubredditContentSortTypes,
@@ -52,8 +58,16 @@ export function searchSubreddit(
   return axios.get<SubredditSearchInfoResult>(url).then((res) => res.data);
 }
 
-export function fetchSubredditSearchInfo(
+export async function fetchSubredditInfo(
   subreddit: string,
-): Promise<SubredditSearchInfoResult> {
-  return searchSubreddit(subreddit, 1);
+): Promise<SubredditSearchInfoDataChildData> {
+  const url = getSubredditAboutFetchURL(subreddit);
+  const result = await axios
+    .get<SubredditAboutResult>(url)
+    .then((res) => res.data);
+  if (result.kind !== 't5') {
+    throw new Error('404');
+  }
+
+  return result.data;
 }

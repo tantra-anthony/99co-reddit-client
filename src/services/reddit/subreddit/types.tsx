@@ -44,6 +44,11 @@ export interface SubredditSearchInfoResult {
   data: SubredditSearchInfoData;
 }
 
+export interface SubredditAboutResult {
+  kind: string;
+  data: SubredditSearchInfoDataChildData;
+}
+
 interface SubredditSearchInfoData {
   dist: number;
   children: SubredditSearchInfoDataChild[];
@@ -54,11 +59,13 @@ export interface SubredditSearchInfoDataChild {
   data: SubredditSearchInfoDataChildData;
 }
 
-interface SubredditSearchInfoDataChildData {
+export interface SubredditSearchInfoDataChildData {
   title: string;
   icon_img: string;
   display_name: string;
   display_name_prefixed: string;
+  banner_background_image: string;
+  community_icon: string;
   subscribers: number;
   accounts_active: number;
   name: string;
