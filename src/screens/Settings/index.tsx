@@ -7,8 +7,6 @@ import Switch from '@material-ui/core/Switch';
 import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import RedditButton from '../../components/RedditButton';
-import { RootState } from '../../store';
-import { connect, ConnectedProps } from 'react-redux';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { ThemePreference } from '../../store/ui/types';
 import { changeThemePreference } from '../../store/ui';
@@ -51,7 +49,7 @@ function Settings() {
 
   useEffect(() => {
     dispatch(changeThemePreference(isNightMode ? 'dark' : 'light'));
-  }, [isNightMode]);
+  }, [isNightMode, dispatch]);
 
   return (
     <Container
