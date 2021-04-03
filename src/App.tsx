@@ -6,23 +6,14 @@ import { HashRouter, Route, Switch } from 'react-router-dom';
 import AppContainer from './components/AppContainer';
 import { loadTranslations } from './services/translation';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { RootState } from './store';
-import { connect, ConnectedProps, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { rehydrateThemePreference } from './store/ui';
 import { setThemePreference } from './services/ui';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { ThemePreference } from './store/ui/types';
+import useAppSelector from './utils/hooks/useAppSelector';
 
 loadTranslations();
-
-const mapStateToProps = (state: RootState) => {
-  const { theme } = state.ui;
-  return { theme };
-};
-
-const connector = connect(mapStateToProps);
-type ReduxProps = ConnectedProps<typeof connector>;
-type AppProps = ReduxProps;
 
 const styles = makeStyles((theme) => ({
   app: {
@@ -32,8 +23,8 @@ const styles = makeStyles((theme) => ({
   },
 }));
 
-function App(props: AppProps) {
-  const { theme } = props;
+function App() {
+  const theme = useAppSelector((state) => state.ui.theme);
   const classes = styles();
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const dispatch = useDispatch();
@@ -79,4 +70,4 @@ function App(props: AppProps) {
   );
 }
 
-export default connector(App);
+export default App;

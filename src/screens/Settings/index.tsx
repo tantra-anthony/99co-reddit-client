@@ -8,20 +8,12 @@ import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import RedditButton from '../../components/RedditButton';
 import { RootState } from '../../store';
-import { connect, ConnectedProps, useDispatch } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { ThemePreference } from '../../store/ui/types';
 import { changeThemePreference } from '../../store/ui';
 import useAppDispatch from '../../utils/hooks/useAppDispatch';
-
-const mapStateToProps = (state: RootState) => {
-  const { theme } = state.ui;
-  return { theme };
-};
-
-const connector = connect(mapStateToProps);
-type ReduxProps = ConnectedProps<typeof connector>;
-type SettingsProps = ReduxProps;
+import useAppSelector from '../../utils/hooks/useAppSelector';
 
 const styles = makeStyles(() => ({
   pageContainer: {
@@ -32,8 +24,8 @@ const styles = makeStyles(() => ({
   },
 }));
 
-function Settings(props: SettingsProps) {
-  const { theme } = props;
+function Settings() {
+  const theme = useAppSelector((state) => state.ui.theme);
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const preferenceWithoutSaved: ThemePreference = prefersDarkMode
     ? 'dark'
@@ -98,4 +90,4 @@ function Settings(props: SettingsProps) {
   );
 }
 
-export default connector(Settings);
+export default Settings;
