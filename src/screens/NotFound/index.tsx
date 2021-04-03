@@ -3,7 +3,6 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import clsx from 'clsx';
 import { Helmet } from 'react-helmet';
 import { ReactComponent as NotFoundLogo } from '../../assets/icons/notfound.svg';
@@ -58,6 +57,9 @@ function NotFound() {
 
   return (
     <Container maxWidth="md" classes={{ root: classes.pageContainer }}>
+      <Helmet>
+        <title>{t('404')}</title>
+      </Helmet>
       <Grid
         direction="row"
         container
