@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import useLanguage from '../../utils/hooks/useLanguage';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
@@ -12,6 +12,8 @@ import Autocomplete, {
   AutocompleteRenderInputParams,
 } from '@material-ui/lab/Autocomplete';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { debounce } from '../../utils/common';
+import { searchSubreddit } from '../../services/reddit/subreddit';
 
 const styles = makeStyles(() => ({
   pageContainer: {
@@ -60,8 +62,34 @@ function Home() {
   function onSubredditNameChange(_: any, newValue: string | null) {
     if (typeof newValue === 'string') {
       setSubredditName(newValue);
+      onChangeSubredditNameDebounced(newValue);
     }
   }
+
+  const updateSubredditSuggestions = useCallback((value: string) => {
+    if (!value) {
+      setSubredditSuggestions(initialSuggestions);
+      return;
+    }
+
+    searchSubreddit(value, 5).then((results) => {
+      const hasMoreThanOne = results.data.dist > 0;
+      if (hasMoreThanOne) {
+        const suggestions = results.data.children.map(
+          (sub) => sub.data.display_name,
+        );
+        setSubredditSuggestions(suggestions);
+        return;
+      }
+
+      setSubredditSuggestions(initialSuggestions);
+    });
+  }, []);
+
+  const onChangeSubredditNameDebounced = useCallback(
+    debounce(updateSubredditSuggestions, 500),
+    [updateSubredditSuggestions],
+  );
 
   function renderAutocompleteInput(params: AutocompleteRenderInputParams) {
     return (

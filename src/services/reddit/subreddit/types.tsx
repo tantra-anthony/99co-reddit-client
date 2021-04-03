@@ -50,8 +50,14 @@ interface SubredditSearchInfoData {
 }
 
 export interface SubredditSearchInfoDataChild {
+  kind: string;
+  data: SubredditSearchInfoDataChildData;
+}
+
+interface SubredditSearchInfoDataChildData {
   title: string;
   icon_img: string;
+  display_name: string;
   display_name_prefixed: string;
   subscribers: number;
   accounts_active: number;
