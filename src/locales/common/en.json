@@ -1,8 +1,43 @@
 {
-  "home": "Home",
-  "settings": "Settings",
+  "app_name": "reddit",
+  "home": "99.co Reddit Client",
+  "search_subreddit": "Search subreddit",
+  "search": "Search",
+  "hide": "Hide",
+  "report": "Report",
+  "pinned_by_moderators": "Pinned by moderators",
+  "posted_by_name_date": "Posted by {{name}} {{date}}",
+  "number_comments": "{{number}} Comments",
+  "share": "Share",
+  "save": "Save",
+  "settings": {
+    "title": "Settings",
+    "night_mode": "Night Mode"
+  },
+  "display_types": {
+    "classic": "Classic",
+    "card": "Card",
+    "compact": "Compact"
+  },
+  "sort_types": {
+    "hot": "Hot",
+    "new": "New",
+    "top": "Top"
+  },
+  "log_in": "Log In",
+  "loading": "Loading",
+  "sign_up": "Sign Up",
+  "about_community": "About Community",
+  "subscribers": "Subscribers",
+  "created_at_time": "Created at {{time}}",
+  "active": "Active",
+  "button": {
+    "go": "Go",
+    "join": "Join"
+  },
   "not_found": {
     "oops": "Oops!",
-    "title": "We can't find what you're looking for"
+    "title": "We can't find what you're looking for",
+    "go_back": "Go Back"
   }
 }
