@@ -68,6 +68,7 @@ export interface SubredditSearchInfoDataChildData {
   community_icon: string;
   subscribers: number;
   accounts_active: number;
+  created: number;
   name: string;
   public_description: string;
   mobile_banner_image: string;
