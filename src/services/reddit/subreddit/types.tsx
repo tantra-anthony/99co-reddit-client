@@ -8,7 +8,7 @@ export enum SubredditContentSortTypes {
 
 export interface SubredditContentQueryParams extends ParsedUrlQueryInput {
   limit?: number;
-  offset?: number;
+  after?: string;
 }
 
 export interface SubredditContentResult {
@@ -24,7 +24,7 @@ interface SubredditContentDataChild {
   data: SubredditContentDataChildData;
 }
 
-interface SubredditContentDataChildData {
+export interface SubredditContentDataChildData {
   subreddit: string;
   selftext: string;
   title: string;
@@ -35,8 +35,13 @@ interface SubredditContentDataChildData {
   author: string;
   num_comments: number;
   stickied: boolean;
+  created_utc: number;
   url: string;
   id: string;
+  post_hint: string;
+  permalink: string;
+  thumbnail: string;
+  upvoted?: boolean;
 }
 
 export interface SubredditSearchInfoResult {

@@ -71,3 +71,12 @@ export async function fetchSubredditInfo(
 
   return result.data;
 }
+
+export async function requestVoteThread(threadId: string, vote: -1 | 0 | 1) {
+  return new Promise<void>((resolve, reject) => {
+    setTimeout(() => {
+      // resolve();
+      reject(new Error('Mock'));
+    }, 3000);
+  });
+}
