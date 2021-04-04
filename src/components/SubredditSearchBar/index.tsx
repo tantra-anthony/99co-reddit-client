@@ -73,10 +73,12 @@ function SubredditSearchBar(props: SubredditSearchBarProps) {
     });
   }, []);
 
+  /* eslint-disable */
   const onChangeSubredditNameDebounced = useCallback(
     debounce(updateSubredditSuggestions, 500),
     [updateSubredditSuggestions],
   );
+  /* eslint-enable */
 
   function renderAutocompleteInput(params: AutocompleteRenderInputParams) {
     return (

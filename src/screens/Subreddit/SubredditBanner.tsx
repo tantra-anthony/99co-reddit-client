@@ -28,7 +28,7 @@ function SubredditBanner(props: SubredditBannerProps) {
 
   return (
     <div className={classes.bannerImageContainer}>
-      <img src={backgroundUrl} className={classes.bannerImage} />
+      <img src={backgroundUrl} className={classes.bannerImage} alt="sub-bg" />
     </div>
   );
 }

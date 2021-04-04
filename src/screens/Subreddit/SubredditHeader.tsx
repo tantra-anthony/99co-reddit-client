@@ -48,6 +48,7 @@ function SubredditHeader(props: SubredditHeaderProps) {
           src={iconUrl}
           width={80}
           height={80}
+          alt="sub-icon"
         />
       </Box>
       <Box display="flex" flexDirection={isSmDown ? 'column' : 'row'}>
