@@ -1,9 +1,27 @@
-## How to Generate FavIcon and Corresponding Files
+## Preface
 
-Get a `.png` or `.svg` file for your logo
+Make sure you have `node` and `npm` installed. Do not use `yarn`.
 
-Go to https://realfavicongenerator.net/
+## Installing Dependencies
 
-Choose "I will place favicon files (favicon.ico, apple-touch-icon.png, etc.) at the root of my web site. Recommended."
+```
+$ npm i
+```
 
-Follow the instructions on the website.
+## Development
+
+```
+$ npm start
+```
+
+## Building
+
+```
+$ npm run build
+```
+
+## Check JS Map
+
+```
+$ npm run analyze
+```
