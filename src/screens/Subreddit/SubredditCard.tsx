@@ -279,6 +279,7 @@ function SubredditCard(props: SubredditCardProps) {
                   >
                     <IconButton
                       onClick={onUpvotePressed}
+                      color={isUpvoted ? 'primary' : 'default'}
                       disableRipple
                       disableFocusRipple
                       disableTouchRipple
@@ -287,12 +288,13 @@ function SubredditCard(props: SubredditCardProps) {
                       <UpvoteIcon />
                     </IconButton>
                     <Box>
-                      <Typography variant="caption">
+                      <Typography variant="caption" color={upvoteTextColor}>
                         <b>{upvotes}</b>
                       </Typography>
                     </Box>
                     <IconButton
                       onClick={onDownvotePressed}
+                      color={isDownvoted ? 'secondary' : 'default'}
                       disableRipple
                       disableFocusRipple
                       disableTouchRipple
