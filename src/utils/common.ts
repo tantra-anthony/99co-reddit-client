@@ -1,6 +1,8 @@
 import _debounce from 'lodash.debounce';
 import numeral from 'numeral';
 import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import _unescape from 'lodash.unescape';
 
 export function getPicsumImageUri(id: number): string {
   return `https://picsum.photos/id/${id}/200/300`;
@@ -27,4 +29,13 @@ export function formatDate(
   format: string = 'DD MM YYYY',
 ) {
   return dayjs(date).format(format);
+}
+
+export function getDateFromNow(date?: number | string) {
+  dayjs.extend(relativeTime);
+  return dayjs(date).fromNow();
+}
+
+export function unescapeString(string: string) {
+  return _unescape(string);
 }
