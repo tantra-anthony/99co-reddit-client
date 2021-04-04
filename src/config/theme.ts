@@ -4,11 +4,17 @@ declare module '@material-ui/core/styles/createMuiTheme' {
   interface Theme {
     custom: {
       default: string;
+      dropback: {
+        card: string;
+      };
     };
   }
   interface ThemeOptions {
     custom: {
       default: string;
+      dropback: {
+        card: string;
+      };
     };
   }
 }
@@ -35,6 +41,9 @@ export const lightTheme = () =>
     },
     custom: {
       default: '#eeeeee',
+      dropback: {
+        card: 'rgba(237, 239, 241, 0.8)',
+      },
     },
     typography: {
       fontFamily: "'Open Sans', 'Helvetica', 'Arial', sans-serif",
@@ -54,6 +63,9 @@ export const darkTheme = () =>
     },
     custom: {
       default: '#eeeeee',
+      dropback: {
+        card: '#343536',
+      },
     },
     typography: {
       fontFamily: "'Open Sans', 'Helvetica', 'Arial', sans-serif",
