@@ -7,7 +7,10 @@ import AppContainer from './components/AppContainer';
 import { loadTranslations } from './services/translation';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { useDispatch } from 'react-redux';
-import { rehydrateThemePreference } from './store/ui';
+import {
+  rehydrateSubredditDisplayPreference,
+  rehydrateThemePreference,
+} from './store/ui';
 import { setThemePreference } from './services/ui';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { ThemePreference } from './store/ui/types';
@@ -39,6 +42,7 @@ function App() {
 
   useEffect(() => {
     dispatch(rehydrateThemePreference(preferenceWithoutSaved));
+    dispatch(rehydrateSubredditDisplayPreference());
   }, [dispatch, preferenceWithoutSaved]);
 
   useEffect(() => {
