@@ -1,11 +1,12 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import RedditButton from '../../components/RedditButton';
 import useLanguage from '../../utils/hooks/useLanguage';
 import { extractSubredditImage } from '../../utils/common';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import useTheming from '../../utils/hooks/useTheming';
 
 const styles = makeStyles((theme) => ({
   subredditIcon: {
@@ -25,42 +26,51 @@ interface SubredditHeaderProps {
 function SubredditHeader(props: SubredditHeaderProps) {
   const classes = styles();
   const { t } = useLanguage();
+  const theme = useTheming();
+  const isSmDown = useMediaQuery(theme.breakpoints.down('sm'));
   const { iconImageUrl, displayName, displayNamePrefixed } = props;
 
   const iconUrl = extractSubredditImage(iconImageUrl);
 
+  const direction = isSmDown ? 'column' : 'row';
+  const align = isSmDown ? 'center' : 'flex-end';
+
   return (
-    <Grid container direction="row">
-      <Grid item>
-        <Box display="flex" flexDirection="row" alignItems="flex-end">
-          <Grid container alignItems="flex-end" direction="row">
-            <Grid item md={12} lg={3}>
-              <Box marginRight={2}>
-                <img
-                  className={classes.subredditIcon}
-                  src={iconUrl}
-                  width={80}
-                  height={80}
-                />
-              </Box>
-            </Grid>
-            <Grid item md={12} lg={9}>
-              <Box marginRight={2} display="flex" flexDirection="row">
-                <Box marginBottom={0.5}>
-                  <Typography variant="h5">
-                    <b>{displayName}</b>
-                  </Typography>
-                  <Typography variant="body2">{displayNamePrefixed}</Typography>
-                </Box>
-                <Box marginLeft={3}>
-                  <RedditButton>{t('button.join')}</RedditButton>
-                </Box>
-              </Box>
-            </Grid>
-          </Grid>
+    <Box
+      display="flex"
+      width="100%"
+      flexDirection={direction}
+      alignItems={align}
+    >
+      <Box marginRight={isSmDown ? 0 : 2} marginBottom={isSmDown ? 1 : 0}>
+        <img
+          className={classes.subredditIcon}
+          src={iconUrl}
+          width={80}
+          height={80}
+        />
+      </Box>
+      <Box display="flex" flexDirection={isSmDown ? 'column' : 'row'}>
+        <Box
+          marginBottom={isSmDown ? 1.5 : 0.5}
+          display="flex"
+          alignItems={isSmDown ? 'center' : 'flex-start'}
+          flexDirection="column"
+        >
+          <Typography variant="h5">
+            <b>{displayName}</b>
+          </Typography>
+          <Typography variant="body2">{displayNamePrefixed}</Typography>
         </Box>
-      </Grid>
-    </Grid>
+        <Box
+          marginLeft={isSmDown ? 0 : 3}
+          display={isSmDown ? 'flex' : undefined}
+          justifyContent={isSmDown ? 'center' : 'flex-start'}
+        >
+          <RedditButton>{t('button.join')}</RedditButton>
+        </Box>
+      </Box>
+    </Box>
   );
 }
 
