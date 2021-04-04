@@ -11,29 +11,3 @@ export interface GetThreadForSubredditParams {
   limit: number;
   after?: string;
 }
-
-export interface ClearThreadVoteLocalParams {
-  threadId: string;
-  scoreAdd: number;
-}
-
-export interface ClearThreadVoteParams {
-  threadId: string;
-  upvoted: boolean;
-}
-
-export interface VoteThreadLocalParams {
-  threadId: string;
-  shouldFlipVote: boolean;
-  scoreAdd: number;
-}
-
-export interface VoteThreadLocalParams {
-  threadId: string;
-  shouldFlipVote: boolean;
-}
-
-export interface VoteThreadParams {
-  threadId: string;
-  isCurrentlyVoted: boolean;
-}

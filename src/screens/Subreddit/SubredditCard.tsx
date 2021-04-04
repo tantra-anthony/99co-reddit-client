@@ -27,7 +27,11 @@ import clsx from 'clsx';
 import RedditButton from '../../components/RedditButton';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import useAppDispatch from '../../utils/hooks/useAppDispatch';
-import { downvoteThread, upvoteThread } from '../../store/threads';
+import {
+  clearThreadVote,
+  downvoteThread,
+  upvoteThread,
+} from '../../store/threads';
 
 const styles = makeStyles((theme) => ({
   pointsContainer: {
@@ -80,36 +84,32 @@ function SubredditCard(props: SubredditCardProps) {
     thread || {};
 
   function onUpvotePressed() {
-    if (typeof upvoted === 'boolean') {
+    if (typeof upvoted === 'boolean' && upvoted) {
+      dispatch(clearThreadVote(threadId));
       return;
     }
-    dispatch(
-      upvoteThread({
-        threadId,
-        isCurrentlyVoted: false,
-      }),
-    );
+    dispatch(upvoteThread(threadId));
   }
 
   function onDownvotePressed() {
-    if (typeof upvoted === 'boolean') {
+    if (typeof upvoted === 'boolean' && !upvoted) {
+      dispatch(clearThreadVote(threadId));
       return;
     }
-    dispatch(
-      downvoteThread({
-        threadId,
-        isCurrentlyVoted: false,
-      }),
-    );
+    dispatch(downvoteThread(threadId));
   }
 
   const upvotes = useMemo(() => {
     if (score) {
-      return score > 1000 ? formatNumber(score, '0.0a') : score;
+      let finalScore = score;
+      if (typeof upvoted === 'boolean') {
+        finalScore = finalScore + (upvoted ? 1 : -1);
+      }
+      return finalScore > 1000 ? formatNumber(finalScore, '0.0a') : finalScore;
     }
 
     return 0;
-  }, [score]);
+  }, [score, upvoted]);
 
   const comments = useMemo(() => {
     if (num_comments) {

@@ -10,14 +10,7 @@ import {
 } from '../../services/reddit/subreddit';
 import { SubredditContentDataChildData } from '../../services/reddit/subreddit/types';
 import { typeThreadsAdded, typeThreadsReceived } from '../subreddits';
-import {
-  ClearThreadVoteLocalParams,
-  ClearThreadVoteParams,
-  GetThreadForSubredditParams,
-  Thread,
-  VoteThreadLocalParams,
-  VoteThreadParams,
-} from './types';
+import { GetThreadForSubredditParams, Thread } from './types';
 
 const threadsAdapter = createEntityAdapter<Thread>({
   selectId: (subreddit) => subreddit.name,
@@ -90,26 +83,13 @@ export const getSubsequentThreadsForSubreddit = createAsyncThunk(
 
 export const clearThreadVote = createAsyncThunk(
   'threads/clearThreadVote',
-  async (params: ClearThreadVoteParams, thunkAPI) => {
+  async (threadId: string, thunkAPI) => {
     const { dispatch } = thunkAPI;
     try {
-      dispatch(
-        clearVotesLocal({
-          threadId: params.threadId,
-          scoreAdd: params.upvoted ? -1 : 1,
-        }),
-      );
-      await requestVoteThread(params.threadId, 0);
+      dispatch(clearVotesLocal(threadId));
+      await requestVoteThread(threadId, 0);
       return true;
     } catch (e) {
-      const args = {
-        threadId: params.threadId,
-        shouldFlipVote: false,
-        scoreAdd: params.upvoted ? -1 : 1,
-      };
-      dispatch(
-        params.upvoted ? upvoteThreadLocal(args) : downvoteThreadLocal(args),
-      );
       return false;
     }
   },
@@ -117,25 +97,14 @@ export const clearThreadVote = createAsyncThunk(
 
 export const upvoteThread = createAsyncThunk(
   'threads/upvoteThread',
-  async (params: VoteThreadParams, thunkAPI) => {
+  async (threadId: string, thunkAPI) => {
     const { dispatch } = thunkAPI;
     try {
-      dispatch(
-        upvoteThreadLocal({
-          threadId: params.threadId,
-          shouldFlipVote: true,
-          scoreAdd: params.isCurrentlyVoted ? 2 : 1,
-        }),
-      );
-      await requestVoteThread(params.threadId, 1);
+      dispatch(upvoteThreadLocal(threadId));
+      await requestVoteThread(threadId, 1);
       return true;
     } catch (e) {
-      dispatch(
-        clearVotesLocal({
-          threadId: params.threadId,
-          scoreAdd: -1,
-        }),
-      );
+      dispatch(clearVotesLocal(threadId));
       return false;
     }
   },
@@ -143,25 +112,14 @@ export const upvoteThread = createAsyncThunk(
 
 export const downvoteThread = createAsyncThunk(
   'threads/downvoteThread',
-  async (params: VoteThreadParams, thunkAPI) => {
+  async (threadId: string, thunkAPI) => {
     const { dispatch } = thunkAPI;
     try {
-      dispatch(
-        downvoteThreadLocal({
-          threadId: params.threadId,
-          shouldFlipVote: true,
-          scoreAdd: params.isCurrentlyVoted ? -2 : -1,
-        }),
-      );
-      await requestVoteThread(params.threadId, -1);
+      dispatch(downvoteThreadLocal(threadId));
+      await requestVoteThread(threadId, -1);
       return true;
     } catch (e) {
-      dispatch(
-        clearVotesLocal({
-          threadId: params.threadId,
-          scoreAdd: 1,
-        }),
-      );
+      dispatch(clearVotesLocal(threadId));
       return false;
     }
   },
@@ -184,29 +142,22 @@ const threadsSlice = createSlice({
         state.loading = true;
       }
     },
-    upvoteThreadLocal(state, action: PayloadAction<VoteThreadLocalParams>) {
-      const thread = state.entities[action.payload.threadId];
+    upvoteThreadLocal(state, action: PayloadAction<string>) {
+      const thread = state.entities[action.payload];
       if (thread) {
-        if (action.payload.shouldFlipVote) {
-          thread.upvoted = true;
-        }
-        thread.score = thread.score + action.payload.scoreAdd;
+        thread.upvoted = true;
       }
     },
-    downvoteThreadLocal(state, action: PayloadAction<VoteThreadLocalParams>) {
-      const thread = state.entities[action.payload.threadId];
+    downvoteThreadLocal(state, action: PayloadAction<string>) {
+      const thread = state.entities[action.payload];
       if (thread) {
-        if (action.payload.shouldFlipVote) {
-          thread.upvoted = false;
-        }
-        thread.score = thread.score + action.payload.scoreAdd;
+        thread.upvoted = false;
       }
     },
-    clearVotesLocal(state, action: PayloadAction<ClearThreadVoteLocalParams>) {
-      const thread = state.entities[action.payload.threadId];
+    clearVotesLocal(state, action: PayloadAction<string>) {
+      const thread = state.entities[action.payload];
       if (thread) {
         thread.upvoted = undefined;
-        thread.score = thread.score + action.payload.scoreAdd;
       }
     },
   },
