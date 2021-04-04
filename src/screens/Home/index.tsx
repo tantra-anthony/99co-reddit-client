@@ -1,19 +1,14 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import useLanguage from '../../utils/hooks/useLanguage';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import { useHistory } from 'react-router-dom';
-import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import { ReactComponent as Logo } from '../../assets/icons/logo.svg';
 import useTheming from '../../utils/hooks/useTheming';
-import Autocomplete, {
-  AutocompleteRenderInputParams,
-} from '@material-ui/lab/Autocomplete';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { debounce } from '../../utils/common';
-import { searchSubreddit } from '../../services/reddit/subreddit';
+import SubredditSearchBar from '../../components/SubredditSearchBar';
 
 const styles = makeStyles(() => ({
   pageContainer: {
@@ -24,26 +19,15 @@ const styles = makeStyles(() => ({
   },
 }));
 
-const initialSuggestions = [
-  'gifs',
-  'holdmybeer',
-  'StartledCats',
-  'Pyongyang',
-  'DotA2',
-];
-
 function Home() {
   const [subredditName, setSubredditName] = useState<string>('');
-  const [subredditSuggestions, setSubredditSuggestions] = useState<string[]>(
-    initialSuggestions,
-  );
   const { breakpoints, palette } = useTheming();
   const isSmDown = useMediaQuery(breakpoints.down('sm'));
   const classes = styles();
   const { t } = useLanguage();
   const history = useHistory();
 
-  function onGoPressed() {
+  function onSubmit(name: string) {
     if (!subredditName) {
       return;
     }
@@ -51,57 +35,8 @@ function Home() {
     history.push(`/r/${subredditName}/hot`);
   }
 
-  function onGoKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
-    const { key } = e;
-    // TODO: create enum for this
-    if (key === 'Enter') {
-      onGoPressed();
-    }
-  }
-
-  function onSubredditNameChange(_: any, newValue: string | null) {
-    if (typeof newValue === 'string') {
-      setSubredditName(newValue);
-      onChangeSubredditNameDebounced(newValue);
-    }
-  }
-
-  const updateSubredditSuggestions = useCallback((value: string) => {
-    if (!value) {
-      setSubredditSuggestions(initialSuggestions);
-      return;
-    }
-
-    searchSubreddit(value, 5).then((results) => {
-      const hasMoreThanOne = results.data.dist > 0;
-      if (hasMoreThanOne) {
-        const suggestions = results.data.children.map(
-          (sub) => sub.data.display_name,
-        );
-        setSubredditSuggestions(suggestions);
-        return;
-      }
-
-      setSubredditSuggestions(initialSuggestions);
-    });
-  }, []);
-
-  const onChangeSubredditNameDebounced = useCallback(
-    debounce(updateSubredditSuggestions, 500),
-    [updateSubredditSuggestions],
-  );
-
-  function renderAutocompleteInput(params: AutocompleteRenderInputParams) {
-    return (
-      <TextField
-        {...params}
-        variant="outlined"
-        color="primary"
-        fullWidth
-        placeholder={t('search_subreddit')}
-        onKeyDown={onGoKeyDown}
-      />
-    );
+  function onGoPressed() {
+    onSubmit(subredditName);
   }
 
   return (
@@ -129,14 +64,18 @@ function Home() {
           {t('home')}
         </Box>
         <Box marginY={2}>
-          <Autocomplete
+          <SubredditSearchBar
+            onChangeSubreddit={setSubredditName}
+            onSubmit={onSubmit}
+          />
+          {/* <Autocomplete
             freeSolo
             inputValue={subredditName}
             onChange={onSubredditNameChange}
             onInputChange={onSubredditNameChange}
             options={subredditSuggestions}
             renderInput={renderAutocompleteInput}
-          />
+          /> */}
         </Box>
         <Box
           width="100%"
