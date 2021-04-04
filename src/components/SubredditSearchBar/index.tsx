@@ -5,8 +5,14 @@ import Autocomplete, {
 import { searchSubreddit } from '../../services/reddit/subreddit';
 import TextField from '@material-ui/core/TextField';
 import { debounce } from '../../utils/common';
-import { useHistory } from 'react-router';
+import { makeStyles } from '@material-ui/core/styles';
 import useLanguage from '../../utils/hooks/useLanguage';
+
+const styles = makeStyles(() => ({
+  textField: {
+    fontSize: 13,
+  },
+}));
 
 const initialSuggestions = [
   'gifs',
@@ -19,10 +25,12 @@ const initialSuggestions = [
 interface SubredditSearchBarProps {
   onSubmit: (subreddit: string) => void;
   onChangeSubreddit: (name: string) => void;
+  size?: 'medium' | 'small';
 }
 
 function SubredditSearchBar(props: SubredditSearchBarProps) {
-  const { onSubmit, onChangeSubreddit } = props;
+  const classes = styles();
+  const { onSubmit, onChangeSubreddit, size = 'medium' } = props;
   const [subredditName, setSubredditName] = useState<string>('');
   const [subredditSuggestions, setSubredditSuggestions] = useState<string[]>(
     initialSuggestions,
@@ -74,8 +82,16 @@ function SubredditSearchBar(props: SubredditSearchBarProps) {
     return (
       <TextField
         {...params}
+        InputProps={{
+          ...params.InputProps,
+          classes: {
+            ...params.InputProps,
+            root: classes.textField,
+          },
+        }}
         variant="outlined"
         color="primary"
+        size={size}
         fullWidth
         placeholder={t('search_subreddit')}
         onKeyDown={onGoKeyDown}

@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import { ReactComponent as Logo } from '../../assets/icons/logo.svg';
-import SearchIcon from '@material-ui/icons/Search';
 import Box from '@material-ui/core/Box';
 import Toolbar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
 import Hidden from '@material-ui/core/Hidden';
 import RedditButton from '../RedditButton';
 import IconButton from '@material-ui/core/IconButton';
@@ -16,6 +14,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import useLanguage from '../../utils/hooks/useLanguage';
 import useTheming from '../../utils/hooks/useTheming';
 import { useHistory } from 'react-router';
+import SubredditSearchBar from '../SubredditSearchBar';
 
 const ITEM_HEIGHT = 48;
 
@@ -60,26 +59,6 @@ const styles = makeStyles((theme) => ({
       width: '100%',
     },
   },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  inputRoot: {
-    width: '100%',
-  },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 0),
-    flex: 1,
-    // vertical padding + font size from searchIcon
-    fontSize: 14,
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    width: '100%',
-  },
 }));
 
 function RedditAppBar() {
@@ -103,6 +82,16 @@ function RedditAppBar() {
 
   function onLogoPressed() {
     history.push('/');
+  }
+
+  function onSubmitSubredditSearch(name: string) {
+    if (name) {
+      history.push(`/r/${name}/hot`);
+    }
+  }
+
+  function onChangeSubredditName(name: string) {
+    // do something
   }
 
   return (
@@ -130,16 +119,10 @@ function RedditAppBar() {
           </Box>
           <Hidden smDown>
             <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon color="disabled" />
-              </div>
-              <InputBase
-                placeholder={t('search')}
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                inputProps={{ 'aria-label': 'search' }}
+              <SubredditSearchBar
+                size="small"
+                onSubmit={onSubmitSubredditSearch}
+                onChangeSubreddit={onChangeSubredditName}
               />
             </div>
             <Box display="flex" flexDirection="row">
