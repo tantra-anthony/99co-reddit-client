@@ -8,7 +8,6 @@ import CardIcon from '@material-ui/icons/ViewStream';
 import CompactIcon from '@material-ui/icons/ViewHeadline';
 import ClassicIcon from '@material-ui/icons/ViewList';
 import DownIcon from '@material-ui/icons/ArrowDropDown';
-import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { SubredditContentSortTypes } from '../../services/reddit/subreddit/types';
 import RedditButton from '../../components/RedditButton';
@@ -19,14 +18,14 @@ import { SubredditDisplayTypes } from './types';
 
 const ITEM_HEIGHT = 48;
 
-interface SubredditFilterCard {
+interface SubredditFilterCardProps {
   onChangeSortType: (sort: SubredditContentSortTypes) => void;
   onChangeDisplayType: (type: SubredditDisplayTypes) => void;
   currentSortType: SubredditContentSortTypes;
   currentDisplayType: SubredditDisplayTypes;
 }
 
-function SubredditFilterCard(props: SubredditFilterCard) {
+function SubredditFilterCard(props: SubredditFilterCardProps) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const {
     currentSortType,
@@ -77,7 +76,7 @@ function SubredditFilterCard(props: SubredditFilterCard) {
         Icon: HotIcon,
       },
     );
-  }, [currentDisplayType]);
+  }, [currentDisplayType, displayTypes]);
 
   const sortTypes = useMemo(() => {
     return Object.values(SubredditContentSortTypes).map((val) => {
@@ -126,7 +125,9 @@ function SubredditFilterCard(props: SubredditFilterCard) {
   return (
     <Card variant="outlined">
       <Box
-        padding={1.5}
+        paddingLeft={1.5}
+        paddingRight={0.5}
+        paddingY={1.5}
         display="flex"
         flexDirection="row"
         justifyContent="space-between"
