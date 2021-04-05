@@ -1,5 +1,7 @@
 ## Preface
 
+App is deployed here: https://99co-reddit-client-tantra-anthony.vercel.app/
+
 Make sure you have `node` and `npm` installed. Do not use `yarn`.
 
 ## Installing Dependencies
