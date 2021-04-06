@@ -8,6 +8,7 @@ import { Helmet } from 'react-helmet';
 import { ReactComponent as NotFoundLogo } from '../../assets/icons/notfound.svg';
 import useLanguage from '../../utils/hooks/useLanguage';
 import RedditButton from '../../components/RedditButton';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useHistory } from 'react-router';
 import Box from '@material-ui/core/Box';
 
@@ -49,6 +50,7 @@ function NotFound() {
   const classes = styles();
   const { t } = useLanguage();
   const theme = useTheme();
+  const isXsDown = useMediaQuery(theme.breakpoints.down('xs'));
   const history = useHistory();
 
   function onGoBack() {
@@ -87,7 +89,12 @@ function NotFound() {
               <Typography className={classes.text} variant="body2">
                 {t('not_found.title')}
               </Typography>
-              <Box marginTop={2}>
+              <Box
+                marginTop={2}
+                display="flex"
+                flexDirection="row"
+                justifyContent={isXsDown ? 'center' : 'flex-start'}
+              >
                 <RedditButton onClick={onGoBack}>
                   {t('not_found.go_back')}
                 </RedditButton>
